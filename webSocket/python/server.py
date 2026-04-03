@@ -14,7 +14,7 @@ print(f"Server listening on {IP}:{PORT}...")
 while True:
     # Receive data from a client
     data, addr = sock.recvfrom(1024)  # buffer size 1024 bytes
-    print(f"Received message from {addr}: {data.decode('utf-8')}")
+    print(f"Received message from {addr}: {data.decode('utf-8')}")                                              
     
     # Optionally send a response
     response = "Message received".encode('utf-8')

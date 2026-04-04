@@ -12,7 +12,9 @@
       "defines": [
         "_WIN32",
         "UNICODE",
-        "_UNICODE"
+        "_UNICODE",
+        "WPCAP",
+        "HAVE_REMOTE"
       ]
     }
   ],

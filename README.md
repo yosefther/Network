@@ -33,17 +33,22 @@ The server prints `Received message from ('127.0.0.1', <port>): Hello from UDP`.
 C on Windows: `UDPclient.c` uses Winsock and `packet_sniffer_WIN32.c` needs the pcap headers (Npcap SDK).
 TODO(yosef): add the compiler and build commands you used on Windows.
 
-The Linux sniffer needs root because raw sockets do. It doesn't build as-is yet, see below.
+The Linux sniffer needs root because raw sockets do. Pass the interface to listen on:
+
+```bash
+cd webSocket/C
+gcc -Wall -o sniffer packet_sniffer_linux.c
+sudo ./sniffer eth0
+```
 
 ## How it works
 
 UDP has no connection, so the server just `bind`s and loops on `recvfrom`, and every datagram comes with the sender's address. The client doesn't connect either. It calls `sendto` with the destination each time.
 
-The sniffers go one level lower. On Linux, `socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ALL))` gets every Ethernet frame on the machine, and `PACKET_MR_PROMISC` asks the NIC for frames that aren't addressed to it. The Windows version gets the same thing through `pcap_open_live`. Both only print "Got one packet" for now and don't parse headers.
+The sniffers go one level lower. On Linux, `socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ALL))` gets every Ethernet frame on the machine, and `PACKET_MR_PROMISC` asks the NIC for frames that aren't addressed to it. The Windows version gets the same thing through `pcap_open_live`. Both only print a line per packet for now and don't parse headers.
 
 ## Limitations
 
-- `packet_sniffer_linux.c` fails on recent GCC (tested with 15.2) because it calls `close()` without `#include <unistd.h>`. It also passes `(socklen_t*)sizeof(saddr)` to `recvfrom` instead of a pointer to a length variable, and never sets `mr.mr_ifindex`. Fix those before trusting its output.
 - No packet parsing yet. The sniffers count packets but don't read Ethernet/IP/UDP headers.
 - `client.py` doesn't wait for the server's reply.
 

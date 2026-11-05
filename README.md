@@ -2,11 +2,6 @@
 
 Small low-level networking experiments: a UDP client and server in Python and C, and a packet sniffer for Linux and Windows.
 
-TODO(yosef): one line on why you built it / what course or topic it was for.
-
-![demo](docs/demo.gif)
-<!-- TODO(yosef): record GIF -->
-
 ## What's in here
 
 ```text
@@ -31,7 +26,6 @@ python3 client.py
 The server prints `Received message from ('127.0.0.1', <port>): Hello from UDP`.
 
 C on Windows: `UDPclient.c` uses Winsock and `packet_sniffer_WIN32.c` needs the pcap headers (Npcap SDK).
-TODO(yosef): add the compiler and build commands you used on Windows.
 
 The Linux sniffer needs root because raw sockets do. Pass the interface to listen on:
 
